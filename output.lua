@@ -138,8 +138,7 @@ function Commands:Websocket(info)
     Ws.OnClose:Connect(function()
         Console:AppendText(`<font color="rgb(194, 120, 17)">[~] Websocket has been closed...</font>`)
         Console:AppendText(`<font color="rgb(194, 120, 17)">[~] Restarting the WebSocket connection...</font>`)
-        wait(0.1)
-        Commands:Websocket(Info["token"])
+        Commands:Websocket(info["token"])
     end)
 
     return Ws
