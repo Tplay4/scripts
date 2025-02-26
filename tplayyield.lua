@@ -12901,7 +12901,7 @@ end)
 
 task.spawn(function()
 	local success, latestVersionInfo = pcall(function() 
-		local versionJson = game:HttpGet('https://raw.githubusercontent.com/Tplay4/scripts/tplayyield.lua')
+		local versionJson = game:HttpGet('https://raw.githubusercontent.com/Tplay4/scripts/refs/heads/main/tplayyield.lua')
 		return HttpService:JSONDecode(versionJson)
 	end)
 
