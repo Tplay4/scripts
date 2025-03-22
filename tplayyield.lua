@@ -13007,4 +13007,32 @@ task.spawn(function()
 	IntroBackground:Destroy()
 	minimizeHolder()
 	if IsOnMobile then notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.") end
+	if _G.IY_ChatExecWhitelist == nil or type(_G.IY_ChatExecWhitelist) ~= "table" then else
+		local WhitelistedPlrs = {}
+		game.Players.PlayerAdded:Connect(function(plr)
+			local allowed = false
+			for _,allowedplr in pairs(_G.IY_ChatExecWhitelist) do
+				if plr.Name == allowedplr then
+					allowed = true
+					break
+				end
+			end
+			if allowed then
+				WhitelistedPlrs[#WhitelistedPlrs + 1] = plr.Name
+				WhitelistedPlrs[plr.Name] = {
+					["Func"] = game.Players[plr.Name].Chatted:Connect(function(msg)
+						if string.find(msg, "iy/") then
+							execCmd(string.gsub(msg, "iy/", ""))
+						end
+					end
+				}
+			end
+		end
+		game.Players.PlayerRemoving:Connect(function()
+			if table.find(WhitelistedPlrs, plr.Name) then
+				WhitelistedPlrs[plr.Name].Func:Disconnect()
+				WhitelistedPlrs[plr.Name] = nil
+			end
+		end
+	end
 end)
