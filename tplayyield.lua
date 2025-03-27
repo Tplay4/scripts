@@ -13024,15 +13024,15 @@ task.spawn(function()
 						if string.find(msg, "iy/") then
 							execCmd(string.gsub(msg, "iy/", ""))
 						end
-					end
+					end)
 				}
 			end
-		end
+		end)
 		game.Players.PlayerRemoving:Connect(function()
 			if table.find(WhitelistedPlrs, plr.Name) then
 				WhitelistedPlrs[plr.Name].Func:Disconnect()
 				WhitelistedPlrs[plr.Name] = nil
 			end
-		end
+		end)
 	end
 end)
