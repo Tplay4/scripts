@@ -13009,6 +13009,24 @@ task.spawn(function()
 	if IsOnMobile then notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.") end
 	if _G.IY_ChatExecWhitelist == nil or type(_G.IY_ChatExecWhitelist) ~= "table" then else
 		local WhitelistedPlrs = {}
+		for i,plr in pairs(game.Players:GetPlayers()) do
+			for _,allowedplr in pairs(_G.IY_ChatExecWhitelist) do
+				if plr.Name == allowedplr then
+					allowed = true
+					break
+				end
+			end
+			if allowed then
+				WhitelistedPlrs[#WhitelistedPlrs + 1] = plr.Name
+				WhitelistedPlrs[plr.Name] = {
+					["Func"] = game.Players[plr.Name].Chatted:Connect(function(msg)
+						if string.find(msg, "iy/") then
+							execCmd(string.gsub(msg, "iy/", ""))
+						end
+					end)
+				}
+			end
+		end
 		game.Players.PlayerAdded:Connect(function(plr)
 			local allowed = false
 			for _,allowedplr in pairs(_G.IY_ChatExecWhitelist) do
